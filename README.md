@@ -1,5 +1,5 @@
 # Geometry Calculator
-## 1. Backend:
+## 1. Backend: (Chạy npm run dev tại /backend)
 ### 1.1. Thư mục *controllers*:
 ---
 #### 1.1.1. File *calculationController.js*:
@@ -22,3 +22,5 @@ Hàm calculateCircleController: Nếu bán kính < 0, hiển thị message: Inva
 ### Test API Postman:
 Vào Postman -> New -> HTTP -> POST:
 1. Test Circle API: URL: http://localhost:3000/api/calculations/calculate/circle -> Chọn raw body JSON
+2. Test Rectangle API: URL: http://localhost:3000/api/calculations/calculate/rectangle -> Chọn raw body JSON
+3. Test Triangle API: URL: http://localhost:3000/api/calculations/calculate/triangle -> Chọn raw body JSON
