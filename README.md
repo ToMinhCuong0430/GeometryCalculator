@@ -1,16 +1,24 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Geometry Calculator
+## 1. Backend:
+### 1.1. Thư mục *controllers*:
+---
+#### 1.1.1. File *calculationController.js*:
+Hàm calculateCircleController: Nếu bán kính < 0, hiển thị message: Invalid radius. Please provide a positive number
+---
+### 1.2. Thư mục *routes*:
+---
+#### 1.2.1. File *calculationRoutes.js*:
+---
+### 1.3. Thư mục *services*:
+---
+#### 1.3.1. File *geometryService.js*:
+---
+### 1.4. Thư mục *validators*:
+---
+#### 1.4.1. File *geometryValidator.js*
+---
+### 1.5. File *server.js*:
+---
+### Test API Postman:
+Vào Postman -> New -> HTTP -> POST:
+1. Test Circle API: URL: http://localhost:3000/api/calculations/calculate/circle -> Chọn raw body JSON
