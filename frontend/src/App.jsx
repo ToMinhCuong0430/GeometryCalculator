@@ -66,9 +66,9 @@ function App(){
         <>
           <h1>Circle Calculator</h1>
           <CircleForm radius={radius} setRadius={setRadius} />
-          <p>Diameter: {resultCircle.diameter}</p>
-          <p>Circumference: {resultCircle.circumference}</p>
-          <p>Area: {resultCircle.area}</p>
+          <p>Diameter: {resultCircle?.diameter}</p>
+          <p>Circumference: {resultCircle?.circumference}</p>
+          <p>Area: {resultCircle?.area}</p>
           <CirclePreview radius={radius} />
         </>
       )}
@@ -77,8 +77,8 @@ function App(){
         <>
           <h1>Rectangle Calculator</h1>
           <RectangleForm length={length} width={width} setLength={setLength} setWidth={setWidth} />
-          <p>Perimeter: {resultRectangle.perimeter}</p>
-          <p>Area: {resultRectangle.area}</p>
+          <p>Perimeter: {resultRectangle?.perimeter}</p>
+          <p>Area: {resultRectangle?.area}</p>
           <RectanglePreview length={length} width={width} />
         </>
       )}
@@ -87,7 +87,7 @@ function App(){
         <>
           <h1>Triangle Calculator</h1>
           <TriangleForm base={base} height={height} setBase={setBase} setHeight={setHeight} />
-          <p>Area: {resultTriangle.area}</p>
+          <p>Area: {resultTriangle?.area}</p>
           <TrianglePreview base={base} height={height} />
         </>
       )}
