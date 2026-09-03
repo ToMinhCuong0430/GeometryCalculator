@@ -13,11 +13,22 @@ import TriangleForm from './shapes/triangle/TriangleForm';
 import TrianglePreview from './shapes/triangle/TrianglePreview';
 
 import ShapeSelector from './components/ShapeSelector';
+
+import {calculateCircleApi} from '../services/geometryAPI';
 function App(){
   const [selectedShape, setSelectedShape] = useState('circle');
 
   const [radius, setRadius] = useState(6.4)
-  const resultCircle = calculateCircle(radius);
+  const [resultCircle, setResultCircle] = useState(null);
+
+  const handleCalculateCircle = async () => {
+    try {
+      const result = await calculateCircleApi(radius);
+      setResultCircle(result);
+    } catch (error) {
+      console.error("Error calculating circle:", error);
+    }
+  };
 
   const[length, setLength] = useState(5);
   const[width, setWidth] = useState(12);
