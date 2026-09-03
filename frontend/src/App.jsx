@@ -14,7 +14,8 @@ import TrianglePreview from './shapes/triangle/TrianglePreview';
 
 import ShapeSelector from './components/ShapeSelector';
 
-import {calculateCircleApi} from '../services/geometryAPI';
+import { calculateCircleApi, calculateRectangleApi, calculateTriangleApi } from './services/geometryApi';
+
 function App(){
   const [selectedShape, setSelectedShape] = useState('circle');
 
@@ -32,11 +33,30 @@ function App(){
 
   const[length, setLength] = useState(5);
   const[width, setWidth] = useState(12);
-  const resultRectangle = calculateRectangle(length, width);
+  const [resultRectangle, setResultRectangle] = useState(null);
+
+  const handleCalculateRectangle = async () => {
+    try {
+      const result = await calculateRectangleApi(length, width);
+      setResultRectangle(result);
+    } catch (error) {
+      console.error("Error calculating rectangle:", error);
+    }
+  };
 
   const[base, setBase] = useState(9);
   const[height, setHeight] = useState(10);
-  const resultTriangle = calculateTriangle(base, height);
+  const [resultTriangle, setResultTriangle] = useState(null);
+
+  const handleCalculateTriangle = async () => {
+    try {
+      const result = await calculateTriangleApi(base, height);
+      setResultTriangle(result);
+    } catch (error) {
+      console.error("Error calculating triangle:", error);
+    }
+  };
+
   return (
     <div>
       <h1>Geometry Calculator</h1>

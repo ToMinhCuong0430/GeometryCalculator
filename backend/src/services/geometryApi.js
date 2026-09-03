@@ -44,3 +44,25 @@ export async function calculateRectangleApi(length, width) {
 
     return data;
 }
+
+export async function calculateTriangleApi(base, height) {
+    const response = await fetch(
+        "http://localhost:3000/api/calculations/calculate/triangle",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                base,
+                height
+            })
+        }
+    );
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || "Calculation failed");
+    }
+    return data;
+}
