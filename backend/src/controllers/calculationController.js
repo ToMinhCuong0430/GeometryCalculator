@@ -1,7 +1,7 @@
 import {calculateCircle, calculateRectangle, calculateTriangle} from '../services/geometryService.js';
 import {isValidPositiveNumber} from '../validators/geometryValidator.js';  
 
-export function calculateCircle(req, res) {
+export function calculateCircleController(req, res) {
     const { radius } = req.body;
     if (!isValidPositiveNumber(radius)) {
         return res.status(400).json({ error: 'Invalid radius. Please provide a positive number.' });
@@ -10,7 +10,7 @@ export function calculateCircle(req, res) {
     res.json(result);
 }
 
-export function calculateRectangle(req, res) {
+export function calculateRectangleController(req, res) {
     const { length, width } = req.body;
     if (!isValidPositiveNumber(length) || !isValidPositiveNumber(width)) {
         return res.status(400).json({ error: 'Invalid length or width. Please provide positive numbers.' });
@@ -19,7 +19,7 @@ export function calculateRectangle(req, res) {
     res.json(result);
 }
 
-export function calculateTriangle(req, res) {
+export function calculateTriangleController(req, res) {
     const { base, height } = req.body;
     if (!isValidPositiveNumber(base) || !isValidPositiveNumber(height)) {
         return res.status(400).json({ error: 'Invalid base or height. Please provide positive numbers.' });
