@@ -18,6 +18,8 @@ import { calculateCircleApi, calculateRectangleApi, calculateTriangleApi } from 
 
 function App(){
   const [selectedShape, setSelectedShape] = useState('circle');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const [radius, setRadius] = useState(6.4);
   const [resultCircle, setResultCircle] = useState(null);
@@ -28,12 +30,19 @@ function App(){
       setResultCircle(null);
       return;
     }
+
+    setLoading(true);
+    setError(null);
+
     try {
       const result = await calculateCircleApi(r);
       setResultCircle(result);
     } catch (error) {
       console.warn("Backend API unavailable, calculating locally:", error);
+      setError(error.message);
       setResultCircle(calculateCircle(r));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,12 +57,19 @@ function App(){
       setResultRectangle(null);
       return;
     }
+
+    setLoading(true);
+    setError(null);
+
     try {
       const result = await calculateRectangleApi(l, w);
       setResultRectangle(result);
     } catch (error) {
       console.warn("Backend API unavailable, calculating locally:", error);
+      setError(error.message);
       setResultRectangle(calculateRectangle(l, w));
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -68,12 +84,19 @@ function App(){
       setResultTriangle(null);
       return;
     }
+
+    setLoading(true);
+    setError(null);
+
     try {
       const result = await calculateTriangleApi(b, h);
       setResultTriangle(result);
     } catch (error) {
       console.warn("Backend API unavailable, calculating locally:", error);
+      setError(error.message);
       setResultTriangle(calculateTriangle(b, h));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,6 +122,8 @@ function App(){
     <div>
       <h1>Geometry Calculator</h1>
       <ShapeSelector selectedShape={selectedShape} setSelectedShape={setSelectedShape} />
+      {loading && <p>Calculating...</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {selectedShape === 'circle' && (
         <>
