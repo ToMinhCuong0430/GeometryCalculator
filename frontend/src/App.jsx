@@ -58,9 +58,13 @@ function App(){
   const handleCalculateRectangle = async () => {
     const validationErrorLength = validatePositiveNumber(length, "Length");
     const validationErrorWidth = validatePositiveNumber(width, "Width");
-    if (validationErrorLength || validationErrorWidth) {
+
+    if(validationErrorLength || validationErrorWidth) {
+      const errors = [];
+      if (validationErrorLength) errors.push(validationErrorLength);
+      if (validationErrorWidth) errors.push(validationErrorWidth);
+      setError(errors.join(" | "));
       setResultRectangle(null);
-      setError(validationErrorLength || validationErrorWidth);
       return;
     }
 
@@ -93,12 +97,16 @@ function App(){
   const handleCalculateTriangle = async () => {
     const validationErrorBase = validatePositiveNumber(base, "Base");
     const validationErrorHeight = validatePositiveNumber(height, "Height");
+
     if (validationErrorBase || validationErrorHeight) {
+      const errors = [];
+      if (validationErrorBase) errors.push(validationErrorBase);
+      if (validationErrorHeight) errors.push(validationErrorHeight);
+      setError(errors.join(" | "));
       setResultTriangle(null);
-      setError(validationErrorBase || validationErrorHeight);
       return;
     }
-    
+
     const b = Number(base);
     const h = Number(height);
     if (isNaN(b) || isNaN(h) || b <= 0 || h <= 0) {
