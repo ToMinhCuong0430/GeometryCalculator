@@ -16,6 +16,9 @@ import ShapeSelector from './components/ShapeSelector';
 
 import { calculateCircleApi, calculateRectangleApi, calculateTriangleApi } from './services/geometryApi';
 
+import {validatePositiveNumber} from './validators/geometryValidator';
+
+
 function App(){
   const [selectedShape, setSelectedShape] = useState('circle');
   const [loading, setLoading] = useState(false);
@@ -25,11 +28,13 @@ function App(){
   const [resultCircle, setResultCircle] = useState(null);
 
   const handleCalculateCircle = async () => {
-    const r = Number(radius);
-    if (isNaN(r) || r <= 0) {
+    const validationError = validatePositiveNumber(radius, "Radius");
+    if (validationError) {
       setResultCircle(null);
+      setError(validationError);
       return;
     }
+    const r = Number(radius);
 
     setLoading(true);
     setError(null);
@@ -51,6 +56,14 @@ function App(){
   const [resultRectangle, setResultRectangle] = useState(null);
 
   const handleCalculateRectangle = async () => {
+    const validationErrorLength = validatePositiveNumber(length, "Length");
+    const validationErrorWidth = validatePositiveNumber(width, "Width");
+    if (validationErrorLength || validationErrorWidth) {
+      setResultRectangle(null);
+      setError(validationErrorLength || validationErrorWidth);
+      return;
+    }
+
     const l = Number(length);
     const w = Number(width);
     if (isNaN(l) || isNaN(w) || l <= 0 || w <= 0) {
@@ -78,6 +91,14 @@ function App(){
   const [resultTriangle, setResultTriangle] = useState(null);
 
   const handleCalculateTriangle = async () => {
+    const validationErrorBase = validatePositiveNumber(base, "Base");
+    const validationErrorHeight = validatePositiveNumber(height, "Height");
+    if (validationErrorBase || validationErrorHeight) {
+      setResultTriangle(null);
+      setError(validationErrorBase || validationErrorHeight);
+      return;
+    }
+    
     const b = Number(base);
     const h = Number(height);
     if (isNaN(b) || isNaN(h) || b <= 0 || h <= 0) {
