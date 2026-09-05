@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {calculateCircle} from './shapes/circle/circleCalculator';
 import {calculateRectangle} from './shapes/rectangle/rectangleCalculator';
 import {calculateTriangle} from './shapes/triangle/triangleCalculator';
@@ -19,15 +19,21 @@ import { calculateCircleApi, calculateRectangleApi, calculateTriangleApi } from 
 function App(){
   const [selectedShape, setSelectedShape] = useState('circle');
 
-  const [radius, setRadius] = useState(6.4)
+  const [radius, setRadius] = useState(6.4);
   const [resultCircle, setResultCircle] = useState(null);
 
   const handleCalculateCircle = async () => {
+    const r = Number(radius);
+    if (isNaN(r) || r <= 0) {
+      setResultCircle(null);
+      return;
+    }
     try {
-      const result = await calculateCircleApi(radius);
+      const result = await calculateCircleApi(r);
       setResultCircle(result);
     } catch (error) {
-      console.error("Error calculating circle:", error);
+      console.warn("Backend API unavailable, calculating locally:", error);
+      setResultCircle(calculateCircle(r));
     }
   };
 
@@ -36,11 +42,18 @@ function App(){
   const [resultRectangle, setResultRectangle] = useState(null);
 
   const handleCalculateRectangle = async () => {
+    const l = Number(length);
+    const w = Number(width);
+    if (isNaN(l) || isNaN(w) || l <= 0 || w <= 0) {
+      setResultRectangle(null);
+      return;
+    }
     try {
-      const result = await calculateRectangleApi(length, width);
+      const result = await calculateRectangleApi(l, w);
       setResultRectangle(result);
     } catch (error) {
-      console.error("Error calculating rectangle:", error);
+      console.warn("Backend API unavailable, calculating locally:", error);
+      setResultRectangle(calculateRectangle(l, w));
     }
   };
 
@@ -49,13 +62,38 @@ function App(){
   const [resultTriangle, setResultTriangle] = useState(null);
 
   const handleCalculateTriangle = async () => {
+    const b = Number(base);
+    const h = Number(height);
+    if (isNaN(b) || isNaN(h) || b <= 0 || h <= 0) {
+      setResultTriangle(null);
+      return;
+    }
     try {
-      const result = await calculateTriangleApi(base, height);
+      const result = await calculateTriangleApi(b, h);
       setResultTriangle(result);
     } catch (error) {
-      console.error("Error calculating triangle:", error);
+      console.warn("Backend API unavailable, calculating locally:", error);
+      setResultTriangle(calculateTriangle(b, h));
     }
   };
+
+  useEffect(() => {
+    if (selectedShape === 'circle') {
+      handleCalculateCircle();
+    }
+  }, [radius, selectedShape]);
+
+  useEffect(() => {
+    if (selectedShape === 'rectangle') {
+      handleCalculateRectangle();
+    }
+  }, [length, width, selectedShape]);
+
+  useEffect(() => {
+    if (selectedShape === 'triangle') {
+      handleCalculateTriangle();
+    }
+  }, [base, height, selectedShape]);
 
   return (
     <div>

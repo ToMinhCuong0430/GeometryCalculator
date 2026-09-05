@@ -7,7 +7,7 @@ export async function calculateCircleApi(radius) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                radius
+                radius: Number(radius)
             })
         }
     );
@@ -15,7 +15,7 @@ export async function calculateCircleApi(radius) {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || "Calculation failed");
+        throw new Error(data.error || data.message || "Calculation failed");
     }
 
     return data;
@@ -30,8 +30,8 @@ export async function calculateRectangleApi(length, width) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                length,
-                width
+                length: Number(length),
+                width: Number(width)
             })
         }
     );
@@ -39,7 +39,7 @@ export async function calculateRectangleApi(length, width) {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || "Calculation failed");
+        throw new Error(data.error || data.message || "Calculation failed");
     }
 
     return data;
@@ -54,15 +54,15 @@ export async function calculateTriangleApi(base, height) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                base,
-                height
+                base: Number(base),
+                height: Number(height)
             })
         }
     );
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || "Calculation failed");
+        throw new Error(data.error || data.message || "Calculation failed");
     }
     return data;
 }
