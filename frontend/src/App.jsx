@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {calculateCircle} from './shapes/circle/circleCalculator';
-import {calculateRectangle} from './shapes/rectangle/rectangleCalculator';
-import {calculateTriangle} from './shapes/triangle/triangleCalculator';
 
 import CirclePreview from './shapes/circle/CirclePreview';
 import CircleForm from './shapes/circle/CircleForm';
@@ -43,9 +40,8 @@ function App(){
       const result = await calculateCircleApi(r);
       setResultCircle(result);
     } catch (error) {
-      console.warn("Backend API unavailable, calculating locally:", error);
       setError(error.message);
-      setResultCircle(calculateCircle(r));
+      setResultCircle(null);
     } finally {
       setLoading(false);
     }
@@ -82,10 +78,9 @@ function App(){
       const result = await calculateRectangleApi(l, w);
       setResultRectangle(result);
     } catch (error) {
-      console.warn("Backend API unavailable, calculating locally:", error);
       setError(error.message);
-      setResultRectangle(calculateRectangle(l, w));
-    }finally {
+      setResultRectangle(null);
+    } finally {
       setLoading(false);
     }
   };
@@ -121,9 +116,8 @@ function App(){
       const result = await calculateTriangleApi(b, h);
       setResultTriangle(result);
     } catch (error) {
-      console.warn("Backend API unavailable, calculating locally:", error);
       setError(error.message);
-      setResultTriangle(calculateTriangle(b, h));
+      setResultTriangle(null);
     } finally {
       setLoading(false);
     }
