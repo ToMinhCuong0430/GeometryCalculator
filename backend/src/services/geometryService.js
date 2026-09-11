@@ -29,3 +29,13 @@ export function calculateTriangle(base, height) {
         area
     };
 }
+
+export function calculateSquare(side) {
+    const perimeter = 4 * side;
+    const area = Math.pow(side, 2);
+
+    return {
+        perimeter,
+        area,
+    };
+}
