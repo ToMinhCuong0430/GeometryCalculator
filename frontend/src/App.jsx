@@ -23,6 +23,7 @@ function App(){
   const [selectedShape, setSelectedShape] = useState('circle');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [history, setHistory] = useState([]);
 
   const [radius, setRadius] = useState(6.4);
   const [resultCircle, setResultCircle] = useState(null);
@@ -42,6 +43,7 @@ function App(){
     try {
       const result = await calculateCircleApi(r);
       setResultCircle(result);
+      setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'circle', inputs: { radius: r }, result: result }]);
     } catch (error) {
       setError(error.message);
       setResultCircle(null);
@@ -80,6 +82,7 @@ function App(){
     try {
       const result = await calculateRectangleApi(l, w);
       setResultRectangle(result);
+      setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'rectangle', inputs: { length: l, width: w }, result: result }]);
     } catch (error) {
       setError(error.message);
       setResultRectangle(null);
@@ -118,6 +121,7 @@ function App(){
     try {
       const result = await calculateTriangleApi(b, h);
       setResultTriangle(result);
+      setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'triangle', inputs: { base: b, height: h }, result: result }]);
     } catch (error) {
       setError(error.message);
       setResultTriangle(null);
@@ -142,6 +146,7 @@ function App(){
     try {
       const result = await calculateSquareApi(s);
       setResultSquare(result);
+      setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'square', inputs: { side: s }, result: result }]);
     } catch (error) {
       setError(error.message);
       setResultSquare(null);
@@ -215,6 +220,31 @@ function App(){
           <SquarePreview side={side} />
         </>
       )}
+
+      <h2>Calculation History</h2>
+      {history.length === 0 ? (
+        <p>No calculations yet.</p>
+      ) : (
+        <ul>
+          {history.map((item) => (
+            <li key={item.id}>
+              <strong>{item.shape}</strong>
+              <div>
+                {Object.entries(item.inputs).map(([key, value]) => (
+                  <p key={key}>{key}: {value}</p>
+                ))}        
+              </div>
+
+              <div>
+                {Object.entries(item.result).map(([key, value]) => (
+                  <p key={key}>{key}: {value}</p>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+      <button onClick={() => setHistory([])}>Clear History</button>
     </div>
   );
 }
