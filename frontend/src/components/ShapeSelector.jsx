@@ -6,6 +6,7 @@ function ShapeSelector ({ selectedShape, setSelectedShape }) {
                 <option value="circle">Circle</option>
                 <option value="rectangle">Rectangle</option>
                 <option value="triangle">Triangle</option>
+                <option value="square">Square</option>
             </select>
         </div>
     )

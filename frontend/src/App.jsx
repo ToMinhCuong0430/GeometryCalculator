@@ -9,9 +9,12 @@ import RectanglePreview from './shapes/rectangle/RectanglePreview';
 import TriangleForm from './shapes/triangle/TriangleForm';
 import TrianglePreview from './shapes/triangle/TrianglePreview';
 
+import SquareForm from './shapes/square/SquareForm';
+import SquarePreview from './shapes/square/SquarePreview';
+
 import ShapeSelector from './components/ShapeSelector';
 
-import { calculateCircleApi, calculateRectangleApi, calculateTriangleApi } from './services/geometryApi';
+import { calculateCircleApi, calculateRectangleApi, calculateTriangleApi, calculateSquareApi } from './services/geometryApi';
 
 import {validatePositiveNumber} from './validators/geometryValidator';
 
@@ -123,6 +126,30 @@ function App(){
     }
   };
 
+  const[side, setSide] = useState(7);
+  const [resultSquare, setResultSquare] = useState(null);
+  const handleSquareCalculate = async () => {
+    const validationErrorSide = validatePositiveNumber(side, "Side");
+    if (validationErrorSide) {
+      setError(validationErrorSide);
+      setResultSquare(null);
+      return;
+    }
+    const s = Number(side);
+
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await calculateSquareApi(s);
+      setResultSquare(result);
+    } catch (error) {
+      setError(error.message);
+      setResultSquare(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleCalculate = () => {
     if (selectedShape === 'circle') {
       handleCalculateCircle();
@@ -133,7 +160,10 @@ function App(){
     if (selectedShape === 'triangle') {
       handleCalculateTriangle();
     }
-  };
+    if (selectedShape === 'square') {
+      handleSquareCalculate();
+    }
+    };
 
   return (
     <div>
@@ -172,6 +202,17 @@ function App(){
           <button onClick={handleCalculate}>Calculate</button>
           <p>Area: {resultTriangle?.area}</p>
           <TrianglePreview base={base} height={height} />
+        </>
+      )}
+
+      {selectedShape === 'square' && (
+        <>
+          <h1>Square Calculator</h1>
+          <SquareForm side={side} setSide={setSide} />
+          <button onClick={handleCalculate}>Calculate</button>
+          <p>Perimeter: {resultSquare?.perimeter}</p>
+          <p>Area: {resultSquare?.area}</p>
+          <SquarePreview side={side} />
         </>
       )}
     </div>

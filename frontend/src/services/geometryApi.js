@@ -66,3 +66,25 @@ export async function calculateTriangleApi(base, height) {
     }
     return data;
 }
+
+export async function calculateSquareApi(side) {
+    const response = await fetch(
+        "http://localhost:3000/api/calculations/calculate/square",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                side: Number(side)
+            })
+        }
+    );  
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || data.message || "Calculation failed");
+    }
+
+    return data;
+}
