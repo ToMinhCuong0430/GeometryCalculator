@@ -123,23 +123,17 @@ function App(){
     }
   };
 
-  useEffect(() => {
+  const handleCalculate = () => {
     if (selectedShape === 'circle') {
       handleCalculateCircle();
     }
-  }, [radius, selectedShape]);
-
-  useEffect(() => {
     if (selectedShape === 'rectangle') {
       handleCalculateRectangle();
     }
-  }, [length, width, selectedShape]);
-
-  useEffect(() => {
     if (selectedShape === 'triangle') {
       handleCalculateTriangle();
     }
-  }, [base, height, selectedShape]);
+  };
 
   return (
     <div>
@@ -152,6 +146,7 @@ function App(){
         <>
           <h1>Circle Calculator</h1>
           <CircleForm radius={radius} setRadius={setRadius} />
+          <button onClick={handleCalculate}>Calculate</button>
           <p>Diameter: {resultCircle?.diameter}</p>
           <p>Circumference: {resultCircle?.circumference}</p>
           <p>Area: {resultCircle?.area}</p>
@@ -163,6 +158,7 @@ function App(){
         <>
           <h1>Rectangle Calculator</h1>
           <RectangleForm length={length} width={width} setLength={setLength} setWidth={setWidth} />
+          <button onClick={handleCalculate}>Calculate</button>
           <p>Perimeter: {resultRectangle?.perimeter}</p>
           <p>Area: {resultRectangle?.area}</p>
           <RectanglePreview length={length} width={width} />
@@ -173,6 +169,7 @@ function App(){
         <>
           <h1>Triangle Calculator</h1>
           <TriangleForm base={base} height={height} setBase={setBase} setHeight={setHeight} />
+          <button onClick={handleCalculate}>Calculate</button>
           <p>Area: {resultTriangle?.area}</p>
           <TrianglePreview base={base} height={height} />
         </>
