@@ -88,3 +88,55 @@ export async function calculateSquareApi(side) {
 
     return data;
 }
+
+export async function saveHistory(history){
+    const response = await fetch("http://localhost:3000/api/history", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(history)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || data.message || "Failed to save history");
+    }
+
+    return data;
+}
+
+export async function getHistory() {
+    const response = await fetch("http://localhost:3000/api/history", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || data.message || "Failed to fetch history");
+    }
+
+    return data;
+}
+
+export async function clearHistory() {
+    const response = await fetch("http://localhost:3000/api/history", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || data.message || "Failed to clear history");
+    }
+
+    return data;
+}
