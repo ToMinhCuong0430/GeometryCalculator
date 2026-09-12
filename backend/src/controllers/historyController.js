@@ -28,3 +28,14 @@ export async function getHistory(req, res) {
         });
     }
 }
+
+export async function deleteHistory(req, res) {
+    try {
+        await Calculation.deleteMany({});
+        res.status(200).json({ message: "History cleared successfully" });
+    } catch (error) {
+        res.status(500).json({
+            error: "Failed to clear calculation history"
+        });
+    }
+}
