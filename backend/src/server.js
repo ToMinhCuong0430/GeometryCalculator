@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import calculationRoutes from "./routes/calculationRoutes.js";
+import historyRoutes from "./routes/historyRoutes.js";
 import {connectDatabase} from "./config/database.js";
 
 
