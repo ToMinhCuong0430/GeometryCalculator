@@ -14,7 +14,14 @@ import SquarePreview from './shapes/square/SquarePreview';
 
 import ShapeSelector from './components/ShapeSelector';
 
-import { calculateCircleApi, calculateRectangleApi, calculateTriangleApi, calculateSquareApi } from './services/geometryApi';
+import {  calculateCircleApi,
+          calculateRectangleApi,
+          calculateTriangleApi, 
+          calculateSquareApi,
+          saveHistory,
+          getHistory,
+          clearHistory
+        } from './services/geometryApi';
 
 import {validatePositiveNumber} from './validators/geometryValidator';
 
@@ -27,6 +34,18 @@ function App(){
 
   const [radius, setRadius] = useState(6.4);
   const [resultCircle, setResultCircle] = useState(null);
+
+  useEffect(() => {
+    async function loadHistory() {
+      try {
+        const historyData = await getHistory();
+        setHistory(historyData);
+      } catch (error) {
+        console.error("Failed to load history:", error);
+      }
+    }
+    loadHistory();
+  }, []);
 
   const handleCalculateCircle = async () => {
     const validationError = validatePositiveNumber(radius, "Radius");
@@ -43,6 +62,10 @@ function App(){
     try {
       const result = await calculateCircleApi(r);
       setResultCircle(result);
+
+      const historyItem = { shape: 'Circle', inputs: { radius: r }, result: result };
+      const savedHistory = await saveHistory(historyItem);
+
       setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'circle', inputs: { radius: r }, result: result }]);
     } catch (error) {
       setError(error.message);
@@ -82,6 +105,10 @@ function App(){
     try {
       const result = await calculateRectangleApi(l, w);
       setResultRectangle(result);
+
+      const historyItem = { shape: 'Rectangle', inputs: { length: l, width: w }, result: result };
+      const savedHistory = await saveHistory(historyItem);
+
       setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'rectangle', inputs: { length: l, width: w }, result: result }]);
     } catch (error) {
       setError(error.message);
@@ -121,6 +148,10 @@ function App(){
     try {
       const result = await calculateTriangleApi(b, h);
       setResultTriangle(result);
+
+      const historyItem = { shape: 'Triangle', inputs: { base: b, height: h }, result: result };
+      const savedHistory = await saveHistory(historyItem);
+
       setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'triangle', inputs: { base: b, height: h }, result: result }]);
     } catch (error) {
       setError(error.message);
@@ -146,6 +177,10 @@ function App(){
     try {
       const result = await calculateSquareApi(s);
       setResultSquare(result);
+
+      const historyItem = { shape: 'Square', inputs: { side: s }, result: result };
+      const savedHistory = await saveHistory(historyItem);
+
       setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'square', inputs: { side: s }, result: result }]);
     } catch (error) {
       setError(error.message);
@@ -244,7 +279,14 @@ function App(){
           ))}
         </ul>
       )}
-      <button onClick={() => setHistory([])}>Clear History</button>
+      <button onClick={async () => {
+        try {
+          await clearHistory();
+          setHistory([]);
+        } catch (error) {
+          console.error("Failed to clear history:", error);
+        }
+      }}>Clear History</button>
     </div>
   );
 }
