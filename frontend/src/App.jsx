@@ -66,7 +66,8 @@ function App(){
       const historyItem = { shape: 'Circle', inputs: { radius: r }, result: result };
       const savedHistory = await saveHistory(historyItem);
 
-      setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'circle', inputs: { radius: r }, result: result }]);
+      setHistory(prevHistory =>[savedHistory, ...prevHistory]);
+
     } catch (error) {
       setError(error.message);
       setResultCircle(null);
