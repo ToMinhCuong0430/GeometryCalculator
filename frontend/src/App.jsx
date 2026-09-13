@@ -109,7 +109,7 @@ function App(){
       const historyItem = { shape: 'Rectangle', inputs: { length: l, width: w }, result: result };
       const savedHistory = await saveHistory(historyItem);
 
-      setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'rectangle', inputs: { length: l, width: w }, result: result }]);
+      setHistory(prevHistory =>[savedHistory, ...prevHistory]);
     } catch (error) {
       setError(error.message);
       setResultRectangle(null);
@@ -152,7 +152,7 @@ function App(){
       const historyItem = { shape: 'Triangle', inputs: { base: b, height: h }, result: result };
       const savedHistory = await saveHistory(historyItem);
 
-      setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'triangle', inputs: { base: b, height: h }, result: result }]);
+      setHistory(prevHistory =>[savedHistory, ...prevHistory]);
     } catch (error) {
       setError(error.message);
       setResultTriangle(null);
@@ -180,8 +180,7 @@ function App(){
 
       const historyItem = { shape: 'Square', inputs: { side: s }, result: result };
       const savedHistory = await saveHistory(historyItem);
-
-      setHistory(prevHistory => [...prevHistory, { id: Date.now(), shape: 'square', inputs: { side: s }, result: result }]);
+      setHistory(prevHistory =>[savedHistory, ...prevHistory]);
     } catch (error) {
       setError(error.message);
       setResultSquare(null);
