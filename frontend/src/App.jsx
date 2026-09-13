@@ -47,10 +47,10 @@ function App(){
     loadHistory();
   }, []);
 
-  const addToHistory = (shape, inputs, result) => {
+  const addToHistory = async (shape, inputs, result) => {
     const historyItem = { shape, inputs, result };
 
-    const savedHistory = saveHistory(historyItem);
+    const savedHistory = await saveHistory(historyItem);
     setHistory(prevHistory => [savedHistory, ...prevHistory]);
   }
 
