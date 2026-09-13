@@ -16,6 +16,11 @@ function HistoryList({ history }) {
                             <p key={key}>{key}: {value}</p>
                         ))}        
                     </div>
+                    <div>
+                        {Object.entries(item.result).map(([key, value]) => (
+                            <p key={key}>{key}: {value}</p>
+                        ))}
+                    </div>
                 </li>
             ))}        
          </ul>
