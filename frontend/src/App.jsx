@@ -47,6 +47,13 @@ function App(){
     loadHistory();
   }, []);
 
+  const addToHistory = (shape, inputs, result) => {
+    const historyItem = { shape, inputs, result };
+
+    const savedHistory = saveHistory(historyItem);
+    setHistory(prevHistory => [savedHistory, ...prevHistory]);
+  }
+
   const handleCalculateCircle = async () => {
     const validationError = validatePositiveNumber(radius, "Radius");
     if (validationError) {
@@ -63,10 +70,7 @@ function App(){
       const result = await calculateCircleApi(r);
       setResultCircle(result);
 
-      const historyItem = { shape: 'Circle', inputs: { radius: r }, result: result };
-      const savedHistory = await saveHistory(historyItem);
-
-      setHistory(prevHistory =>[savedHistory, ...prevHistory]);
+      await addToHistory('Circle', { radius: r }, result);
 
     } catch (error) {
       setError(error.message);
@@ -103,10 +107,7 @@ function App(){
       const result = await calculateRectangleApi(l, w);
       setResultRectangle(result);
 
-      const historyItem = { shape: 'Rectangle', inputs: { length: l, width: w }, result: result };
-      const savedHistory = await saveHistory(historyItem);
-
-      setHistory(prevHistory =>[savedHistory, ...prevHistory]);
+      await addToHistory('Rectangle', { length: l, width: w }, result);
     } catch (error) {
       setError(error.message);
       setResultRectangle(null);
@@ -142,10 +143,7 @@ function App(){
       const result = await calculateTriangleApi(b, h);
       setResultTriangle(result);
 
-      const historyItem = { shape: 'Triangle', inputs: { base: b, height: h }, result: result };
-      const savedHistory = await saveHistory(historyItem);
-
-      setHistory(prevHistory =>[savedHistory, ...prevHistory]);
+      await addToHistory('Triangle', { base: b, height: h }, result);
     } catch (error) {
       setError(error.message);
       setResultTriangle(null);
@@ -171,9 +169,7 @@ function App(){
       const result = await calculateSquareApi(s);
       setResultSquare(result);
 
-      const historyItem = { shape: 'Square', inputs: { side: s }, result: result };
-      const savedHistory = await saveHistory(historyItem);
-      setHistory(prevHistory =>[savedHistory, ...prevHistory]);
+      await addToHistory('Square', { side: s }, result);
     } catch (error) {
       setError(error.message);
       setResultSquare(null);
