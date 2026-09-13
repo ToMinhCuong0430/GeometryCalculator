@@ -19,13 +19,13 @@ import {  calculateCircleApi,
           calculateTriangleApi, 
           calculateSquareApi,
           saveHistory,
-          getHistory,
-          clearHistory
+          getHistory
         } from './services/geometryApi';
 
 import {validatePositiveNumber} from './validators/geometryValidator';
 
 import HistoryList from './components/HistoryList';
+import ClearHistoryButton from './components/ClearHistoryButton';
 function App(){
   const [selectedShape, setSelectedShape] = useState('circle');
   const [loading, setLoading] = useState(false);
@@ -245,14 +245,7 @@ function App(){
       )}
 
       <HistoryList history={history} />
-      <button onClick={async () => {
-        try {
-          await clearHistory();
-          setHistory([]);
-        } catch (error) {
-          console.error("Failed to clear history:", error);
-        }
-      }}>Clear History</button>
+      <ClearHistoryButton setHistory={setHistory} />
     </div>
   );
 }
