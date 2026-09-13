@@ -94,10 +94,6 @@ function App(){
 
     const l = Number(length);
     const w = Number(width);
-    if (isNaN(l) || isNaN(w) || l <= 0 || w <= 0) {
-      setResultRectangle(null);
-      return;
-    }
 
     setLoading(true);
     setError(null);
@@ -137,10 +133,6 @@ function App(){
 
     const b = Number(base);
     const h = Number(height);
-    if (isNaN(b) || isNaN(h) || b <= 0 || h <= 0) {
-      setResultTriangle(null);
-      return;
-    }
 
     setLoading(true);
     setError(null);
@@ -261,7 +253,7 @@ function App(){
       ) : (
         <ul>
           {history.map((item) => (
-            <li key={item.id}>
+            <li key={item._id}>
               <strong>{item.shape}</strong>
               <div>
                 {Object.entries(item.inputs).map(([key, value]) => (
