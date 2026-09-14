@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import CirclePreview from './shapes/circle/CirclePreview';
 import CircleForm from './shapes/circle/CircleForm';
@@ -13,13 +13,13 @@ import SquareForm from './shapes/square/SquareForm';
 import SquarePreview from './shapes/square/SquarePreview';
 
 import ShapeSelector from './components/ShapeSelector';
+import HistoryLoader from './components/HistoryLoader';
 
 import {  calculateCircleApi,
           calculateRectangleApi,
           calculateTriangleApi, 
           calculateSquareApi,
-          saveHistory,
-          getHistory
+          saveHistory
         } from './services/geometryApi';
 
 import {validatePositiveNumber} from './validators/geometryValidator';
@@ -34,18 +34,6 @@ function App(){
 
   const [radius, setRadius] = useState(6.4);
   const [resultCircle, setResultCircle] = useState(null);
-
-  useEffect(() => {
-    async function loadHistory() {
-      try {
-        const historyData = await getHistory();
-        setHistory(historyData);
-      } catch (error) {
-        console.error("Failed to load history:", error);
-      }
-    }
-    loadHistory();
-  }, []);
 
   const addToHistory = async (shape, inputs, result) => {
     const historyItem = { shape, inputs, result };
@@ -197,6 +185,8 @@ function App(){
     <div>
       <h1>Geometry Calculator</h1>
       <ShapeSelector selectedShape={selectedShape} setSelectedShape={setSelectedShape} />
+      <HistoryLoader setHistory={setHistory} />
+
       {loading && <p>Calculating...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
