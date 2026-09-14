@@ -118,7 +118,7 @@ function App(){
 
   const[side, setSide] = useState(7);
   const [resultSquare, setResultSquare] = useState(null);
-  const handleSquareCalculate = async () => {
+  const handleCalculateSquare = async () => {
     const s = Number(side);
 
     await executeCalculation({
@@ -135,19 +135,27 @@ function App(){
   };
 
   const handleCalculate = () => {
-    if (selectedShape === 'circle') {
-      handleCalculateCircle();
+    switch (selectedShape) {
+      case 'circle':
+        handleCalculateCircle();
+        break;
+
+      case 'rectangle':
+        handleCalculateRectangle();
+        break;
+
+      case 'triangle':
+        handleCalculateTriangle();
+        break;
+
+      case 'square':
+        handleCalculateSquare();
+        break;
+
+      default:
+        break;
     }
-    if (selectedShape === 'rectangle') {
-      handleCalculateRectangle();
-    }
-    if (selectedShape === 'triangle') {
-      handleCalculateTriangle();
-    }
-    if (selectedShape === 'square') {
-      handleSquareCalculate();
-    }
-    };
+  };
 
   return (
     <div>
