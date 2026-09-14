@@ -26,6 +26,8 @@ import {validatePositiveNumber} from './validators/geometryValidator';
 
 import HistoryList from './components/HistoryList';
 import ClearHistoryButton from './components/ClearHistoryButton';
+
+import {executeCalculation} from './utils/calculateUtils';
 function App(){
   const [selectedShape, setSelectedShape] = useState('circle');
   const [loading, setLoading] = useState(false);
@@ -43,29 +45,19 @@ function App(){
   }
 
   const handleCalculateCircle = async () => {
-    const validationError = validatePositiveNumber(radius, "Radius");
-    if (validationError) {
-      setResultCircle(null);
-      setError(validationError);
-      return;
-    }
     const r = Number(radius);
 
-    setLoading(true);
-    setError(null);
-
-    try {
-      const result = await calculateCircleApi(r);
-      setResultCircle(result);
-
-      await addToHistory('Circle', { radius: r }, result);
-
-    } catch (error) {
-      setError(error.message);
-      setResultCircle(null);
-    } finally {
-      setLoading(false);
-    }
+    await executeCalculation({
+      validate: () => validatePositiveNumber(radius, "Radius"),
+      calculate: () => calculateCircleApi(r),
+      onSuccess: setResultCircle,
+      addToHistory,
+      shape: 'Circle',
+      inputs: { radius: r },
+      setLoading,
+      setError,
+      clearResult: () => setResultCircle(null)
+    });
   };
 
   const[length, setLength] = useState(5);
@@ -73,35 +65,27 @@ function App(){
   const [resultRectangle, setResultRectangle] = useState(null);
 
   const handleCalculateRectangle = async () => {
-    const validationErrorLength = validatePositiveNumber(length, "Length");
-    const validationErrorWidth = validatePositiveNumber(width, "Width");
-
-    if(validationErrorLength || validationErrorWidth) {
-      const errors = [];
-      if (validationErrorLength) errors.push(validationErrorLength);
-      if (validationErrorWidth) errors.push(validationErrorWidth);
-      setError(errors.join(" | "));
-      setResultRectangle(null);
-      return;
-    }
-
     const l = Number(length);
     const w = Number(width);
 
-    setLoading(true);
-    setError(null);
-
-    try {
-      const result = await calculateRectangleApi(l, w);
-      setResultRectangle(result);
-
-      await addToHistory('Rectangle', { length: l, width: w }, result);
-    } catch (error) {
-      setError(error.message);
-      setResultRectangle(null);
-    } finally {
-      setLoading(false);
-    }
+    await executeCalculation({
+      validate: () => {
+        const errorLength = validatePositiveNumber(length, "Length");
+        const errorWidth = validatePositiveNumber(width, "Width");
+        if (errorLength || errorWidth) {
+          return [errorLength, errorWidth].filter(Boolean).join(" | ");
+        }
+        return null;
+      },
+      calculate: () => calculateRectangleApi(l, w),
+      onSuccess: setResultRectangle,
+      addToHistory,
+      shape: 'Rectangle',
+      inputs: { length: l, width: w },
+      setLoading,
+      setError,
+      clearResult: () => setResultRectangle(null)
+    });
   };
 
   const[base, setBase] = useState(9);
@@ -109,61 +93,45 @@ function App(){
   const [resultTriangle, setResultTriangle] = useState(null);
 
   const handleCalculateTriangle = async () => {
-    const validationErrorBase = validatePositiveNumber(base, "Base");
-    const validationErrorHeight = validatePositiveNumber(height, "Height");
-
-    if (validationErrorBase || validationErrorHeight) {
-      const errors = [];
-      if (validationErrorBase) errors.push(validationErrorBase);
-      if (validationErrorHeight) errors.push(validationErrorHeight);
-      setError(errors.join(" | "));
-      setResultTriangle(null);
-      return;
-    }
-
     const b = Number(base);
     const h = Number(height);
 
-    setLoading(true);
-    setError(null);
-
-    try {
-      const result = await calculateTriangleApi(b, h);
-      setResultTriangle(result);
-
-      await addToHistory('Triangle', { base: b, height: h }, result);
-    } catch (error) {
-      setError(error.message);
-      setResultTriangle(null);
-    } finally {
-      setLoading(false);
-    }
+    await executeCalculation({
+      validate: () => {
+        const errorBase = validatePositiveNumber(base, "Base");
+        const errorHeight = validatePositiveNumber(height, "Height");
+        if (errorBase || errorHeight) {
+          return [errorBase, errorHeight].filter(Boolean).join(" | ");
+        }
+        return null;
+      },
+      calculate: () => calculateTriangleApi(b, h),
+      onSuccess: setResultTriangle,
+      addToHistory,
+      shape: 'Triangle',
+      inputs: { base: b, height: h },
+      setLoading,
+      setError,
+      clearResult: () => setResultTriangle(null)
+    });
   };
 
   const[side, setSide] = useState(7);
   const [resultSquare, setResultSquare] = useState(null);
   const handleSquareCalculate = async () => {
-    const validationErrorSide = validatePositiveNumber(side, "Side");
-    if (validationErrorSide) {
-      setError(validationErrorSide);
-      setResultSquare(null);
-      return;
-    }
     const s = Number(side);
 
-    setLoading(true);
-    setError(null);
-    try {
-      const result = await calculateSquareApi(s);
-      setResultSquare(result);
-
-      await addToHistory('Square', { side: s }, result);
-    } catch (error) {
-      setError(error.message);
-      setResultSquare(null);
-    } finally {
-      setLoading(false);
-    }
+    await executeCalculation({
+      validate: () => validatePositiveNumber(side, "Side"),
+      calculate: () => calculateSquareApi(s),
+      onSuccess: setResultSquare,
+      addToHistory,
+      shape: 'Square',
+      inputs: { side: s },
+      setLoading,
+      setError,
+      clearResult: () => setResultSquare(null)
+    });
   };
 
   const handleCalculate = () => {
